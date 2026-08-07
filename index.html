@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA LUXE Parfums — Royal Indian Haute Parfumerie &amp; Bespoke Attar Creations</title>
+  <meta name="description" content="Discover AURA LUXE Parfums: Royal Indian luxury fragrances crafted in Kannauj with rare attar, Mysore sandalwood and Assam agarwood. Explore our interactive scent finder and bespoke olfactory lab.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <p>✨ Complimentary Signature Discovery Set with orders above ₹4,999 &nbsp;|&nbsp; Pan-India Express Delivery</p>
+  </div>
+  
+  <!-- Scroll Progress Indicator -->
+  <div id="scroll-progress-bar" class="scroll-progress-bar"></div>
+
+  <!-- Main Navigation Header -->
+  <header id="main-header" class="header">
+    <div class="header-container header-brand-only">
+      <a href="#" class="brand-logo">
+        <span class="logo-icon">❖</span>
+        <span class="logo-text">AURA LUXE</span>
+        <span class="logo-subtext">MUMBAI • KANNAUJ</span>
+      </a>
+
+      <div class="header-actions">
+        <button id="cart-toggle-btn" class="cart-btn" aria-label="Open Shopping Cart">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-label">Cart</span>
+          <span id="cart-count" class="cart-badge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+      <!-- Fullscreen Kinetic Canvas Animation Background -->
+      <div class="hero-canvas-wrapper">
+        <canvas id="hero-scroll-canvas" class="hero-scroll-canvas"></canvas>
+        <div class="hero-canvas-overlay"></div>
+      </div>
+      <div class="hero-bg-glow"></div>
+      <div class="container hero-container">
+        <div class="hero-content reveal reveal-slide-left">
+          <div class="hero-tagline">ROYAL INDIAN HAUTE PARFUMERIE</div>
+          <h1 class="hero-title">A Scent Worthy of a Maharaja.</h1>
+          <p class="hero-description">
+            Crafted in the historic attar capital of Kannauj with Kashmir saffron, Assam agarwood, and Mysore sandalwood — distilled in copper degs by master perfumers for over 400 years.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#collection" class="btn btn-primary">
+              <span>Explore Collection</span>
+              <span class="btn-arrow">→</span>
+            </a>
+            <a href="#olfactory-lab" class="btn btn-secondary">
+              <span>Bespoke Olfactory Lab</span>
+              <span class="btn-sparkle">✨</span>
+            </a>
+          </div>
+
+          <div class="hero-metrics">
+            <div class="metric-item">
+              <span class="metric-val">100%</span>
+              <span class="metric-lbl">Pure Attar Essence</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-item">
+              <span class="metric-val">14+ Hrs</span>
+              <span class="metric-lbl">Legendary Sillage</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-item">
+              <span class="metric-val">Kannauj</span>
+              <span class="metric-lbl">Indian Craftsmanship</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal reveal-slide-right">
+          <div class="hero-card-glow"></div>
+          <div class="hero-image-wrapper">
+            <img src="./images/hero.png" alt="Oud Royale Signature Fragrance" class="hero-img">
+            <div class="hero-floating-badge">
+              <div class="badge-icon">👑</div>
+              <div class="badge-text">
+                <span class="badge-title">Oud Royale Eau de Parfum</span>
+                <span class="badge-sub">Assam Agarwood • Kannauj Rose • Rajput Amber</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collection Showcase -->
+    <section id="collection" class="collection-section">
+      <div class="container">
+        <div class="section-header text-center reveal reveal-fade-up">
+          <span class="section-subtitle">THE PRIVATE ARCHIVE</span>
+          <h2 class="section-title">Handcrafted Eau de Parfum</h2>
+          <p class="section-desc">Each formula is bottled at 24% perfume oil concentration for deep projection and lasting sillage.</p>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="filter-bar reveal reveal-scale stagger-1">
+          <button class="filter-btn active" data-filter="all">All Fragrances</button>
+          <button class="filter-btn" data-filter="oriental">Oriental & Oud</button>
+          <button class="filter-btn" data-filter="floral">Floral Chypres</button>
+          <button class="filter-btn" data-filter="fresh">Fresh Botanical</button>
+          <button class="filter-btn" data-filter="woody">Woody & Amber</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="product-grid">
+          <!-- Dynamically populated via app.js -->
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Bespoke Olfactory Lab / Scent Blender -->
+    <section id="olfactory-lab" class="lab-section">
+      <div class="container">
+        <div class="section-header text-center reveal reveal-fade-up">
+          <span class="section-subtitle">THE BESPOKE ATELIER</span>
+          <h2 class="section-title">Formulate Your Custom Scent</h2>
+          <p class="section-desc">Adjust the olfactory accord sliders to mix your own custom fragrance ratio. We will hand-blend and label your custom 50ml Eau de Parfum.</p>
+        </div>
+
+        <div class="lab-workspace reveal reveal-fade-up stagger-1">
+          <div class="lab-controls-panel glass-card">
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-name">Bergamot & Pink Pepper (Citrus Spark)</span>
+                <span id="val-citrus" class="slider-value">25%</span>
+              </div>
+              <input type="range" id="slider-citrus" min="0" max="100" value="25" class="custom-slider">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-name">Jasmine & Damask Rose (Velvet Heart)</span>
+                <span id="val-floral" class="slider-value">35%</span>
+              </div>
+              <input type="range" id="slider-floral" min="0" max="100" value="35" class="custom-slider">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-name">Mysore Sandalwood & Cedar (Woody Base)</span>
+                <span id="val-woody" class="slider-value">25%</span>
+              </div>
+              <input type="range" id="slider-woody" min="0" max="100" value="25" class="custom-slider">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-name">Wild Amber & Bourbon Vanilla (Warm Glow)</span>
+                <span id="val-amber" class="slider-value">15%</span>
+              </div>
+              <input type="range" id="slider-amber" min="0" max="100" value="15" class="custom-slider">
+            </div>
+
+            <div class="custom-naming-field">
+              <label for="custom-scent-name">Custom Bottle Engraving Name:</label>
+              <input type="text" id="custom-scent-name" placeholder="e.g. Nocturne No. 7" value="My Signature Blend">
+            </div>
+          </div>
+
+          <div class="lab-preview-panel glass-card text-center">
+            <div class="bottle-glow-preview">
+              <div id="custom-bottle-aura" class="custom-bottle-aura"></div>
+              <div class="bottle-graphic">
+                <span class="bottle-cap"></span>
+                <span id="bottle-body" class="bottle-body">
+                  <span id="bottle-label-text" class="bottle-label-text">My Signature Blend</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="custom-recipe-summary">
+              <h4 id="custom-blend-title" class="blend-title">Dominant Velvet Floral & Warm Amber</h4>
+              <p id="custom-blend-desc" class="blend-desc">A rich, romantic composition with sparkling citrus top notes grounded in creamy sandalwood and amber.</p>
+              <div class="custom-price-tag">₹18,500 <span class="size-lbl">(50ml Bespoke Edition)</span></div>
+              <button id="add-custom-blend-btn" class="btn btn-primary btn-block">
+                <span>Order Custom Blended Bottle</span>
+                <span>🛒</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Artisanal Heritage & Quality -->
+    <section id="heritage" class="heritage-section">
+      <div class="container">
+        <div class="section-header text-center reveal reveal-fade-up">
+          <span class="section-subtitle">THE HOUSE PHILOSOPHY</span>
+          <h2 class="section-title">Royal Indian Attar Mastery</h2>
+        </div>
+
+        <div class="heritage-grid">
+          <div class="heritage-card glass-card reveal reveal-scale stagger-1">
+            <div class="heritage-icon">🌸</div>
+            <h3>Rare Indian Botanicals</h3>
+            <p>We source Kannauj May Rose harvested at dawn, sustainably wild-crafted Assam agarwood, and hand-pressed Kashmiri saffron from small organic farms across India.</p>
+          </div>
+
+          <div class="heritage-card glass-card reveal reveal-scale stagger-2">
+            <div class="heritage-icon">⚗️</div>
+            <h3>Slow Deg Distillation</h3>
+            <p>Every attar batch is slowly distilled in traditional copper degs over sandalwood fire for 10–15 days, preserving the full aromatic soul of each flower without synthetic fixatives.</p>
+          </div>
+
+          <div class="heritage-card glass-card reveal reveal-scale stagger-3">
+            <div class="heritage-icon">💎</div>
+            <h3>Heritage Crystal Decanters</h3>
+            <p>Our hand-blown Indian crystal decanters are fully refillable, sealed in 24k gold-threaded packaging and designed to honour generations of gifting tradition.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews & Press -->
+    <section id="reviews" class="reviews-section">
+      <div class="container">
+        <div class="section-header text-center reveal reveal-fade-up">
+          <span class="section-subtitle">VOICES OF ACCLAIM</span>
+          <h2 class="section-title">Client Experiences</h2>
+        </div>
+
+        <div class="reviews-grid">
+          <div class="review-card glass-card reveal reveal-fade-up stagger-1">
+            <div class="star-rating">★★★★★</div>
+            <p class="review-text">"Élixir Nuit has become my signature at every soirée in Colaba. People stop me just to ask — the Kashmir saffron and rose attar dry-down is beyond exquisite."</p>
+            <div class="reviewer-info">
+              <span class="reviewer-name">Priya S.</span>
+              <span class="reviewer-location">Mumbai • Verified Collector</span>
+            </div>
+          </div>
+
+          <div class="review-card glass-card reveal reveal-fade-up stagger-2">
+            <div class="star-rating">★★★★★</div>
+            <p class="review-text">"The Scent Finder Quiz recommended Verdant Aura and it is perfect for Delhi winters! Crisp, refined, and distinctly sophisticated — everyone at my office loves it."</p>
+            <div class="reviewer-info">
+              <span class="reviewer-name">Arjun Mehta</span>
+              <span class="reviewer-location">New Delhi • Verified Buyer</span>
+            </div>
+          </div>
+
+          <div class="review-card glass-card reveal reveal-fade-up stagger-3">
+            <div class="star-rating">★★★★★</div>
+            <p class="review-text">"Ordering the custom bespoke blend was an extraordinary experience. They engraved my name on the decanter and delivered across Bengaluru overnight. Pure luxury."</p>
+            <div class="reviewer-info">
+              <span class="reviewer-name">Kavitha Nair</span>
+              <span class="reviewer-location">Bengaluru • Verified Collector</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Press Endorsements -->
+        <div class="press-quotes reveal reveal-fade-up stagger-4">
+          <div class="press-item">"The new benchmark for Indian haute parfumerie." — <em>VOGUE INDIA</em></div>
+          <div class="press-item">"Sensual, ethereal, and rooted in 400 years of Kannauj mastery." — <em>HARPER'S BAZAAR INDIA</em></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIP Newsletter Signup -->
+    <section class="newsletter-section">
+      <div class="container text-center">
+        <div class="newsletter-card glass-card reveal reveal-scale">
+          <span class="newsletter-icon">✉️</span>
+          <h2>Join The Private Olfactory Club</h2>
+          <p>Subscribe to receive exclusive access to small-batch micro-releases and enjoy 15% off your first order.</p>
+
+          <form id="newsletter-form" class="newsletter-form">
+            <input type="email" id="newsletter-email" placeholder="Enter your email address..." required aria-label="Email address">
+            <button type="submit" class="btn btn-primary">Unlock 15% Off</button>
+          </form>
+
+          <div id="newsletter-success-msg" class="newsletter-success hidden">
+            🎉 Thank you! Use code <strong id="promo-code">AURA15</strong> at checkout for 15% off. <button id="copy-code-btn" class="btn-text">Copy Code</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Slide-out Shopping Cart Drawer -->
+  <div id="cart-overlay" class="cart-overlay"></div>
+  <aside id="cart-drawer" class="cart-drawer" aria-label="Shopping Cart Drawer">
+    <div class="cart-drawer-header">
+      <div class="cart-header-title">
+        <span class="cart-header-icon">🛒</span>
+        <h3>Your Shopping Cart (<span id="cart-drawer-count">0</span>)</h3>
+      </div>
+      <button id="cart-close-btn" class="close-btn" aria-label="Close Shopping Cart">✕</button>
+    </div>
+
+    <div id="cart-items-container" class="cart-drawer-body">
+      <!-- Cart items injected dynamically -->
+    </div>
+
+    <div class="cart-drawer-footer">
+      <div class="free-sample-picker">
+        <label for="sample-select">🎁 Select Free 2ml Discovery Sample:</label>
+        <select id="sample-select" class="sample-select">
+          <option value="Élixir Nuit 2ml Sample">Élixir Nuit (Velvet Amber)</option>
+          <option value="Fleur de Soie 2ml Sample">Fleur de Soie (Rose Chypres)</option>
+          <option value="Verdant Aura 2ml Sample">Verdant Aura (Fresh Botanical)</option>
+          <option value="Oud Royale 2ml Sample">Oud Royale (Rare Agarwood)</option>
+        </select>
+      </div>
+
+      <div class="cart-subtotal-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal-val" class="subtotal-amount">₹0</span>
+      </div>
+
+      <div class="cart-shipping-note">
+        <span>🚚 Shipping:</span>
+        <span id="shipping-status" class="shipping-status">Calculated at checkout (Free across India over ₹4,999)</span>
+      </div>
+
+      <button id="checkout-btn" class="btn btn-primary btn-block btn-lg">
+        <span>Proceed to Checkout</span>
+        <span>🔒</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Quick View Product Modal -->
+  <div id="quickview-modal" class="modal-overlay">
+    <div class="modal-card glass-card">
+      <button id="modal-close-btn" class="modal-close" aria-label="Close Modal">✕</button>
+      <div class="modal-body">
+        <div class="modal-image-col">
+          <img id="modal-img" src="./images/hero.png" alt="Perfume Preview">
+        </div>
+        <div class="modal-details-col">
+          <span id="modal-category" class="modal-category-tag">ORIENTAL</span>
+          <h2 id="modal-title" class="modal-title">Élixir Nuit</h2>
+          <div id="modal-rating" class="modal-stars">★★★★★ <span class="rating-num">(4.9/5 from 128 reviews)</span></div>
+          <div id="modal-price" class="modal-price-tag">₹16,500</div>
+          <p id="modal-desc" class="modal-description">An alluring evening elixir that drapes your skin in glowing amber, saffron, and Madagascar vanilla.</p>
+
+          <div class="modal-notes-summary">
+            <div><strong>Top:</strong> <span id="modal-top-notes">Italian Bergamot, Pink Pepper</span></div>
+            <div><strong>Heart:</strong> <span id="modal-heart-notes">Damask Rose, Moroccan Jasmine</span></div>
+            <div><strong>Base:</strong> <span id="modal-base-notes">Ambergris, Mysore Sandalwood</span></div>
+          </div>
+
+          <div class="size-selector">
+            <label>Select Bottle Volume:</label>
+            <div class="size-options">
+              <button class="size-btn active" data-size="50ml" data-price-mult="1">50ml (₹16,500)</button>
+              <button class="size-btn" data-size="100ml" data-price-mult="1.4">100ml (₹23,100)</button>
+            </div>
+          </div>
+
+          <button id="modal-add-cart-btn" class="btn btn-primary btn-block">
+            <span>Add to Shopping Cart</span>
+            <span>🛒</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top-btn" class="back-to-top-btn" aria-label="Scroll Back to Top" title="Back to Top">
+    <span>↑</span>
+  </button>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <div class="brand-logo">
+          <span class="logo-icon">❖</span>
+          <span class="logo-text">AURA LUXE</span>
+        </div>
+        <p>Crafting rare olfactory masterworks rooted in 400 years of Indian attar heritage.</p>
+        <p class="copyright">&copy; 2026 AURA LUXE Parfums. All Rights Reserved.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#collection">Private Archive</a></li>
+          <li><a href="#olfactory-lab">Bespoke Olfactory Lab</a></li>
+          <li><a href="#heritage">Our Craft &amp; Heritage</a></li>
+          <li><a href="#reviews">Client Experiences</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <ul>
+          <li><a href="#" onclick="alert('Complimentary shipping across India on all orders over ₹4,999. Express 24-hr delivery to major metros.')">Shipping &amp; Returns</a></li>
+          <li><a href="#" onclick="alert('Our master perfumers are available for private consultations at boutique@auraluxe.com')">Book Scent Consultation</a></li>
+          <li><a href="#" onclick="alert('All fragrances are 100% cruelty-free and IFRA certified.')">Safety & Ingredients</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Flagship Boutique</h4>
+        <p>14 Altamount Road, Kemps Corner<br>Mumbai 400026, Maharashtra</p>
+        <p class="contact-email">concierge@auraluxe.in</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script src="app.js"></script>
+</body>
+</html>
