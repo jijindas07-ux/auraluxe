@@ -388,6 +388,197 @@
   <!-- Toast Notification Container -->
   <div id="toast-container" class="toast-container"></div>
 
+  <!-- Modern E-Commerce Checkout Modal -->
+  <div id="checkout-modal" class="modal-overlay">
+    <div class="checkout-card glass-card">
+      <div class="checkout-modal-header">
+        <div class="checkout-header-title">
+          <span class="checkout-icon">🔒</span>
+          <h2>Secure Express Checkout</h2>
+        </div>
+        <button id="checkout-close-btn" class="modal-close" aria-label="Close Checkout">✕</button>
+      </div>
+
+      <div class="checkout-modal-body">
+        <!-- Form Side -->
+        <form id="checkout-form" class="checkout-form-col">
+          
+          <div class="checkout-section">
+            <h3 class="checkout-step-title"><span class="step-num">1</span> Delivery &amp; Contact Details</h3>
+            <div class="form-row">
+              <div class="form-group col-full">
+                <label for="chk-name">Full Name *</label>
+                <input type="text" id="chk-name" placeholder="e.g. Ananya Sharma" required>
+              </div>
+            </div>
+
+            <div class="form-row col-2">
+              <div class="form-group">
+                <label for="chk-email">Email Address *</label>
+                <input type="email" id="chk-email" placeholder="ananya@example.com" required>
+              </div>
+              <div class="form-group">
+                <label for="chk-phone">Mobile Number *</label>
+                <input type="tel" id="chk-phone" placeholder="+91 98765 43210" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="chk-address">Flat / House No. &amp; Building *</label>
+              <input type="text" id="chk-address" placeholder="e.g. Apt 4B, Emerald Heights" required>
+            </div>
+
+            <div class="form-group">
+              <label for="chk-street">Street Address / Locality *</label>
+              <input type="text" id="chk-street" placeholder="e.g. Park Street, Bandra West" required>
+            </div>
+
+            <div class="form-row col-3">
+              <div class="form-group">
+                <label for="chk-pincode">Pincode *</label>
+                <input type="text" id="chk-pincode" placeholder="400050" required maxlength="6">
+              </div>
+              <div class="form-group">
+                <label for="chk-city">City *</label>
+                <input type="text" id="chk-city" placeholder="Mumbai" required>
+              </div>
+              <div class="form-group">
+                <label for="chk-state">State *</label>
+                <input type="text" id="chk-state" placeholder="Maharashtra" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="checkout-section">
+            <h3 class="checkout-step-title"><span class="step-num">2</span> Payment Method</h3>
+            <div class="payment-options-grid">
+              
+              <label class="payment-option-card active">
+                <input type="radio" name="payment-method" value="UPI Instant (GPay / PhonePe / Paytm)" checked>
+                <div class="payment-card-content">
+                  <span class="payment-icon">⚡</span>
+                  <div>
+                    <span class="payment-name">UPI / QR Code</span>
+                    <span class="payment-desc">GPay, PhonePe, Paytm, BHIM</span>
+                  </div>
+                  <span class="recommended-badge">FASTEST</span>
+                </div>
+              </label>
+
+              <label class="payment-option-card">
+                <input type="radio" name="payment-method" value="Credit/Debit Card">
+                <div class="payment-card-content">
+                  <span class="payment-icon">💳</span>
+                  <div>
+                    <span class="payment-name">Credit / Debit Card</span>
+                    <span class="payment-desc">Visa, Mastercard, RuPay</span>
+                  </div>
+                </div>
+              </label>
+
+              <label class="payment-option-card">
+                <input type="radio" name="payment-method" value="Net Banking">
+                <div class="payment-card-content">
+                  <span class="payment-icon">🏦</span>
+                  <div>
+                    <span class="payment-name">Net Banking</span>
+                    <span class="payment-desc">HDFC, ICICI, SBI, Axis &amp; all banks</span>
+                  </div>
+                </div>
+              </label>
+
+              <label class="payment-option-card">
+                <input type="radio" name="payment-method" value="Cash on Delivery">
+                <div class="payment-card-content">
+                  <span class="payment-icon">💵</span>
+                  <div>
+                    <span class="payment-name">Cash on Delivery</span>
+                    <span class="payment-desc">Pay upon doorstep arrival</span>
+                  </div>
+                </div>
+              </label>
+
+            </div>
+          </div>
+
+          <button type="submit" id="place-order-btn" class="btn btn-primary btn-block btn-lg place-order-btn">
+            <span>Complete Order</span>
+            <span id="chk-btn-price">₹0</span>
+          </button>
+        </form>
+
+        <!-- Summary Side -->
+        <div class="checkout-summary-col">
+          <h3 class="summary-title">Order Summary</h3>
+          <div id="checkout-items-list" class="checkout-items-list">
+            <!-- Dynamic items populated by JS -->
+          </div>
+
+          <div class="checkout-promo-box">
+            <input type="text" id="chk-promo-code" placeholder="Promo code (e.g. AURA15)">
+            <button type="button" id="apply-promo-btn" class="btn btn-secondary">Apply</button>
+          </div>
+
+          <div class="checkout-totals">
+            <div class="total-row">
+              <span>Subtotal</span>
+              <span id="chk-subtotal">₹0</span>
+            </div>
+            <div id="chk-discount-row" class="total-row discount-row hidden">
+              <span>Promo Discount (AURA15)</span>
+              <span id="chk-discount">-₹0</span>
+            </div>
+            <div class="total-row">
+              <span>Pan-India Shipping</span>
+              <span id="chk-shipping" class="free-badge">FREE</span>
+            </div>
+            <div class="total-row final-total">
+              <span>Total Payable</span>
+              <span id="chk-final-total">₹0</span>
+            </div>
+          </div>
+
+          <div class="checkout-trust-badges">
+            <div class="trust-badge">🛡️ 256-Bit SSL Encrypted</div>
+            <div class="trust-badge">🚚 Express 24–48hr Metro Delivery</div>
+            <div class="trust-badge">✨ 100% Authentic Indian Luxury</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Success Confirmation Modal -->
+  <div id="order-success-modal" class="modal-overlay">
+    <div class="success-card glass-card text-center">
+      <div class="success-icon-wrapper">🎉</div>
+      <span class="success-badge">ORDER CONFIRMED</span>
+      <h2 class="success-title">Thank You For Your Order!</h2>
+      <p class="success-sub">Your bespoke fragrance package is being carefully prepared by our master perfumers in Kannauj.</p>
+
+      <div class="order-details-box">
+        <div class="detail-item">
+          <span class="detail-lbl">Order Reference:</span>
+          <span id="success-order-id" class="detail-val">#AL-98421</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-lbl">Estimated Delivery:</span>
+          <span id="success-delivery-date" class="detail-val">2–3 Business Days</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-lbl">Payment Status:</span>
+          <span id="success-payment-status" class="detail-val green">Paid via UPI ⚡</span>
+        </div>
+      </div>
+
+      <button id="success-done-btn" class="btn btn-primary btn-block">
+        <span>Continue Exploring</span>
+        <span>✨</span>
+      </button>
+    </div>
+  </div>
+
   <!-- Back to Top Button -->
   <button id="back-to-top-btn" class="back-to-top-btn" aria-label="Scroll Back to Top" title="Back to Top">
     <span>↑</span>
