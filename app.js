@@ -375,16 +375,157 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- 7. E-Commerce Checkout & Order Confirmation Engine ---
+  const checkoutModal = document.getElementById('checkout-modal');
+  const checkoutCloseBtn = document.getElementById('checkout-close-btn');
+  const checkoutForm = document.getElementById('checkout-form');
+  const checkoutItemsList = document.getElementById('checkout-items-list');
+  const chkSubtotal = document.getElementById('chk-subtotal');
+  const chkDiscountRow = document.getElementById('chk-discount-row');
+  const chkDiscount = document.getElementById('chk-discount');
+  const chkFinalTotal = document.getElementById('chk-final-total');
+  const chkBtnPrice = document.getElementById('chk-btn-price');
+  const chkPromoCode = document.getElementById('chk-promo-code');
+  const applyPromoBtn = document.getElementById('apply-promo-btn');
+
+  const orderSuccessModal = document.getElementById('order-success-modal');
+  const successOrderId = document.getElementById('success-order-id');
+  const successPaymentStatus = document.getElementById('success-payment-status');
+  const successDoneBtn = document.getElementById('success-done-btn');
+
+  let appliedDiscountPct = 0;
+
+  function updateCheckoutSummary() {
+    if (!checkoutItemsList) return;
+
+    let subtotal = 0;
+    checkoutItemsList.innerHTML = '';
+
+    cart.forEach(item => {
+      const itemSub = item.price * item.quantity;
+      subtotal += itemSub;
+
+      const itemEl = document.createElement('div');
+      itemEl.className = 'chk-item';
+      itemEl.innerHTML = `
+        <img src="${item.image}" alt="${item.title}" class="chk-item-img">
+        <div class="chk-item-info">
+          <div class="chk-item-title">${item.title} <span class="chk-item-qty">x${item.quantity}</span></div>
+          <div class="chk-item-size">${item.size}</div>
+        </div>
+        <div class="chk-item-price">₹${itemSub.toLocaleString('en-IN')}</div>
+      `;
+      checkoutItemsList.appendChild(itemEl);
+    });
+
+    const discountAmount = Math.round(subtotal * (appliedDiscountPct / 100));
+    const finalTotal = Math.max(0, subtotal - discountAmount);
+
+    if (chkSubtotal) chkSubtotal.textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+    
+    if (discountAmount > 0) {
+      if (chkDiscountRow) chkDiscountRow.classList.remove('hidden');
+      if (chkDiscount) chkDiscount.textContent = `-₹${discountAmount.toLocaleString('en-IN')}`;
+    } else {
+      if (chkDiscountRow) chkDiscountRow.classList.add('hidden');
+    }
+
+    if (chkFinalTotal) chkFinalTotal.textContent = `₹${finalTotal.toLocaleString('en-IN')}`;
+    if (chkBtnPrice) chkBtnPrice.textContent = `₹${finalTotal.toLocaleString('en-IN')}`;
+  }
+
+  function openCheckoutModal() {
+    updateCheckoutSummary();
+    if (checkoutModal) checkoutModal.classList.add('open');
+  }
+
+  function closeCheckoutModal() {
+    if (checkoutModal) checkoutModal.classList.remove('open');
+  }
+
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', () => {
       if (cart.length === 0) {
-        showToast('Your cart is empty!', '⚠️');
+        showToast('Your cart is empty! Add fragrances first.', '⚠️');
         return;
       }
-      alert('Thank you for experiencing AURA LUXE! Order confirmation and complimentary discovery samples will be processed securely.');
-      cart = [];
-      updateCartUI();
       closeCartDrawer();
+      openCheckoutModal();
+    });
+  }
+
+  if (checkoutCloseBtn) {
+    checkoutCloseBtn.addEventListener('click', closeCheckoutModal);
+  }
+
+  if (checkoutModal) {
+    checkoutModal.addEventListener('click', (e) => {
+      if (e.target === checkoutModal) closeCheckoutModal();
+    });
+  }
+
+  // Payment Option Cards selection
+  const paymentCards = document.querySelectorAll('.payment-option-card');
+  paymentCards.forEach(card => {
+    card.addEventListener('click', () => {
+      paymentCards.forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      const radio = card.querySelector('input[type="radio"]');
+      if (radio) radio.checked = true;
+    });
+  });
+
+  // Apply Promo Code
+  if (applyPromoBtn) {
+    applyPromoBtn.addEventListener('click', () => {
+      const code = chkPromoCode ? chkPromoCode.value.trim().toUpperCase() : '';
+      if (code === 'AURA15') {
+        appliedDiscountPct = 15;
+        updateCheckoutSummary();
+        showToast('Promo code AURA15 applied! 15% OFF', '🎉');
+      } else if (code) {
+        showToast('Invalid promo code. Try AURA15', '⚠️');
+      }
+    });
+  }
+
+  // Checkout Form Submission
+  if (checkoutForm) {
+    checkoutForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const selectedPayment = document.querySelector('input[name="payment-method"]:checked');
+      const paymentMethodVal = selectedPayment ? selectedPayment.value : 'UPI Instant';
+      
+      const randomOrderId = `AL-${Math.floor(100000 + Math.random() * 900000)}`;
+
+      if (successOrderId) successOrderId.textContent = `#${randomOrderId}`;
+      if (successPaymentStatus) {
+        if (paymentMethodVal.includes('Cash')) {
+          successPaymentStatus.textContent = 'Pay on Delivery 💵';
+          successPaymentStatus.className = 'detail-val yellow';
+        } else {
+          successPaymentStatus.textContent = `Paid via ${paymentMethodVal} ⚡`;
+          successPaymentStatus.className = 'detail-val green';
+        }
+      }
+
+      closeCheckoutModal();
+      
+      // Open success modal
+      if (orderSuccessModal) orderSuccessModal.classList.add('open');
+
+      // Reset cart
+      cart = [];
+      appliedDiscountPct = 0;
+      if (chkPromoCode) chkPromoCode.value = '';
+      updateCartUI();
+    });
+  }
+
+  if (successDoneBtn) {
+    successDoneBtn.addEventListener('click', () => {
+      if (orderSuccessModal) orderSuccessModal.classList.remove('open');
     });
   }
 
