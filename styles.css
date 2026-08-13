@@ -112,33 +112,30 @@ button {
   width: 0%;
   background: var(--gold-gradient);
   box-shadow: 0 0 12px var(--gold-primary);
-  z-index: 1001;
-  transition: width 0.1s ease-out;
+  z-index: 2000;
+  transition: width 0.08s linear;
+  will-change: width;
 }
 
-/* Announcement Bar */
-.announcement-bar {
-  background: linear-gradient(90deg, #1A180E 0%, #2A2412 50%, #1A180E 100%);
-  border-bottom: 1px solid var(--border-gold);
-  text-align: center;
-  padding: 8px 16px;
-  font-size: 0.82rem;
-  letter-spacing: 1px;
-  color: var(--gold-light);
-  font-family: var(--font-serif);
-}
-
-/* Header & Nav */
+/* Header & Nav — Always transparent, floats over hero canvas */
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
-  background: rgba(8, 8, 12, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 18px 0;
-  transition: var(--transition-smooth);
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid transparent;
+  padding: 22px 0;
+  transition: border-color 0.4s ease;
+  transform: translateZ(0);
+}
+
+/* Subtle border-only scrolled state — no black background */
+.header.scrolled {
+  border-bottom-color: rgba(232, 166, 23, 0.18);
 }
 
 .header-container {
@@ -337,6 +334,7 @@ button {
 .hero-section {
   position: relative;
   height: 200vh; /* Scroll track for front page animation */
+  margin-top: 0; /* Starts at absolute top — header/bar are fixed overlays */
 }
 
 .hero-canvas-wrapper {
@@ -347,6 +345,7 @@ button {
   height: 100vh;
   z-index: 1;
   overflow: hidden;
+  transform: translateZ(0); /* GPU layer */
 }
 
 .hero-scroll-canvas {
@@ -354,14 +353,15 @@ button {
   height: 100%;
   display: block;
   object-fit: cover;
-  filter: brightness(0.7) contrast(1.15);
+  will-change: contents;
+  transform: translateZ(0);
 }
 
 .hero-canvas-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(8, 8, 12, 0.25) 0%, rgba(8, 8, 12, 0.75) 70%, rgba(8, 8, 12, 0.95) 100%),
-              linear-gradient(180deg, rgba(8, 8, 12, 0.8) 0%, rgba(0,0,0,0) 40%, rgba(8, 8, 12, 0.95) 100%);
+  background: radial-gradient(circle at 50% 50%, rgba(8, 8, 12, 0.15) 0%, rgba(8, 8, 12, 0.65) 65%, rgba(8, 8, 12, 0.92) 100%),
+              linear-gradient(180deg, rgba(8, 8, 12, 0.55) 0%, rgba(0,0,0,0) 35%, rgba(8, 8, 12, 0.92) 100%);
   pointer-events: none;
 }
 
@@ -379,7 +379,7 @@ button {
 
 .hero-container {
   position: sticky;
-  top: 14vh;
+  top: 18vh; /* slightly lower to sit below fixed header */
   z-index: 10;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -1739,25 +1739,25 @@ button {
 
 .reveal {
   opacity: 0;
-  transform: translateY(35px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
 .reveal.reveal-fade-up {
-  transform: translateY(45px);
+  transform: translateY(38px);
 }
 
 .reveal.reveal-slide-left {
-  transform: translateX(-50px);
+  transform: translateX(-42px);
 }
 
 .reveal.reveal-slide-right {
-  transform: translateX(50px);
+  transform: translateX(42px);
 }
 
 .reveal.reveal-scale {
-  transform: scale(0.92);
+  transform: scale(0.94);
 }
 
 .reveal.active {
@@ -1766,11 +1766,11 @@ button {
 }
 
 /* Stagger Delays for Grid Elements */
-.stagger-1 { transition-delay: 0.1s; }
-.stagger-2 { transition-delay: 0.2s; }
-.stagger-3 { transition-delay: 0.3s; }
-.stagger-4 { transition-delay: 0.4s; }
-.stagger-5 { transition-delay: 0.5s; }
+.stagger-1 { transition-delay: 0.07s; }
+.stagger-2 { transition-delay: 0.14s; }
+.stagger-3 { transition-delay: 0.21s; }
+.stagger-4 { transition-delay: 0.28s; }
+.stagger-5 { transition-delay: 0.35s; }
 
 /* Back to Top Button */
 .back-to-top-btn {
@@ -1810,8 +1810,11 @@ button {
 
 /* Hero Visual Soft Floating Pulse */
 .hero-img {
-  animation: heroFloat 6s ease-in-out infinite;
-}@keyframes heroFloat {
+  animation: heroFloat 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes heroFloat {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
   }

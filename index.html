@@ -9,18 +9,19 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+
+  <!-- Preload first animation frame for instant canvas start -->
+  <link rel="preload" href="./images/animation/ezgif-frame-001.jpg" as="image">
+  <!-- Preload hero image -->
+  <link rel="preload" href="./images/hero.png" as="image">
   
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Top Announcement Bar -->
-  <div class="announcement-bar">
-    <p>✨ Complimentary Signature Discovery Set with orders above ₹4,999 &nbsp;|&nbsp; Pan-India Express Delivery</p>
-  </div>
-  
   <!-- Scroll Progress Indicator -->
   <div id="scroll-progress-bar" class="scroll-progress-bar"></div>
 
@@ -353,7 +354,7 @@
       <button id="modal-close-btn" class="modal-close" aria-label="Close Modal">✕</button>
       <div class="modal-body">
         <div class="modal-image-col">
-          <img id="modal-img" src="./images/hero.png" alt="Perfume Preview">
+          <img id="modal-img" src="./images/hero.png" alt="Perfume Preview" loading="lazy">
         </div>
         <div class="modal-details-col">
           <span id="modal-category" class="modal-category-tag">ORIENTAL</span>
@@ -623,7 +624,7 @@
     </div>
   </footer>
 
-  <!-- Script -->
-  <script src="app.js"></script>
+  <!-- Script (defer for non-blocking load) -->
+  <script src="app.js" defer></script>
 </body>
 </html>

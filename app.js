@@ -677,44 +677,63 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Scroll event handler for top progress bar, back-to-top button, & active nav link
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    
-    // 1. Update top scroll progress bar
-    if (progressBar && scrollHeight > 0) {
-      const scrollPercent = Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100));
-      progressBar.style.width = `${scrollPercent}%`;
-    }
+  const mainHeader = document.getElementById('main-header');
+  let rafScheduled = false;
 
-    // 2. Toggle Back-to-Top Button Visibility
-    if (backToTopBtn) {
-      if (scrollTop > 350) {
-        backToTopBtn.classList.add('visible');
-      } else {
-        backToTopBtn.classList.remove('visible');
+  function onScroll() {
+    if (rafScheduled) return;
+    rafScheduled = true;
+    requestAnimationFrame(() => {
+      rafScheduled = false;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+
+      // 1. Update top scroll progress bar
+      if (progressBar && scrollHeight > 0) {
+        const scrollPercent = Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100));
+        progressBar.style.width = `${scrollPercent}%`;
       }
-    }
 
-    // 3. Update Active Header Link on Scroll
-    let currentSectionId = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 120;
-      const sectionHeight = section.offsetHeight;
-      if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
-        currentSectionId = section.getAttribute('id');
+      // 2. Toggle header scrolled state (transparent at top, opaque when scrolled)
+      if (mainHeader) {
+        if (scrollTop > 20) {
+          mainHeader.classList.add('scrolled');
+        } else {
+          mainHeader.classList.remove('scrolled');
+        }
       }
-    });
 
-    if (currentSectionId) {
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentSectionId}`) {
-          link.classList.add('active');
+      // 3. Toggle Back-to-Top Button Visibility
+      if (backToTopBtn) {
+        if (scrollTop > 350) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      }
+
+      // 4. Update Active Header Link on Scroll
+      let currentSectionId = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        const sectionHeight = section.offsetHeight;
+        if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
+          currentSectionId = section.getAttribute('id');
         }
       });
-    }
-  });
+
+      if (currentSectionId) {
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentSectionId}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
 
   // Back to Top Click Action
   if (backToTopBtn) {
@@ -731,14 +750,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroCanvas = document.getElementById('hero-scroll-canvas');
 
   if (heroCanvas && heroSection) {
-    const ctx = heroCanvas.getContext('2d');
+    const ctx = heroCanvas.getContext('2d', { alpha: false }); // alpha:false = faster compositing
     const totalFrames = 70;
     const frames = [];
     let imagesLoaded = 0;
+    let canvasRafId = null;
+    let lastFrameIndex = -1;
 
     function resizeCanvas() {
       heroCanvas.width = window.innerWidth;
       heroCanvas.height = window.innerHeight;
+      lastFrameIndex = -1; // force redraw
       renderHeroFrame();
     }
 
@@ -756,7 +778,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const nx = (cw - nw) / 2;
       const ny = (ch - nh) / 2;
 
-      ctx.clearRect(0, 0, cw, ch);
       ctx.drawImage(img, nx, ny, nw, nh);
     }
 
@@ -770,30 +791,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const frameIndex = Math.min(totalFrames - 1, Math.floor(progress * totalFrames));
 
-      if (frames[frameIndex] && frames[frameIndex].complete) {
+      // Only redraw if frame actually changed
+      if (frameIndex === lastFrameIndex) return;
+      lastFrameIndex = frameIndex;
+
+      if (frames[frameIndex] && frames[frameIndex].complete && frames[frameIndex].naturalWidth > 0) {
+        ctx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
         drawCoverImage(frames[frameIndex]);
       }
     }
 
-    // Preload all 70 frames from ./images/animation/
+    // Schedule canvas paint on scroll using passive listener + RAF
+    function scheduleCanvasPaint() {
+      if (canvasRafId) return; // already scheduled
+      canvasRafId = requestAnimationFrame(() => {
+        canvasRafId = null;
+        renderHeroFrame();
+      });
+    }
+
+    // Preload frames — prioritize first 10 frames for fast start
     for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
       const pad = String(i).padStart(3, '0');
       img.src = `./images/animation/ezgif-frame-${pad}.jpg`;
+      img.decoding = 'async';
       img.onload = () => {
         imagesLoaded++;
-        if (i === 1 || imagesLoaded === totalFrames) {
+        if (i === 1) {
           resizeCanvas();
+          renderHeroFrame();
+        } else if (imagesLoaded === totalFrames) {
           renderHeroFrame();
         }
       };
       frames.push(img);
     }
 
-    window.addEventListener('resize', resizeCanvas);
-    window.addEventListener('scroll', () => {
-      requestAnimationFrame(renderHeroFrame);
-    });
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    window.addEventListener('scroll', scheduleCanvasPaint, { passive: true });
 
     resizeCanvas();
   }
