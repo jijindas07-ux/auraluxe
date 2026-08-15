@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Express Checkout — AURA LUXE Parfums</title>
+  <meta name="description" content="Secure Express Checkout for AURA LUXE Royal Indian Haute Parfumerie. Fast Pan-India delivery, 100% authentic Kannauj attar & bespoke creations.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="checkout.css">
+</head>
+<body class="checkout-page-body">
+
+  <!-- Checkout Minimal Luxury Header -->
+  <header class="checkout-header">
+    <div class="checkout-header-inner">
+      <a href="index.html" class="checkout-back-btn" title="Back to Boutique">
+        <span class="back-arrow">←</span>
+        <span class="back-text">Return to Boutique</span>
+      </a>
+
+      <a href="index.html" class="checkout-brand-logo">
+        <span class="logo-icon">❖</span>
+        <span class="logo-text">AURA LUXE</span>
+        <span class="logo-subtext">ROYAL PARFUMERIE</span>
+      </a>
+
+      <div class="checkout-security-badge">
+        <span class="security-icon">🔒</span>
+        <span class="security-text">256-Bit SSL Secure</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="checkout-main">
+    <div class="checkout-container">
+
+      <!-- Order Confirmation View (Shown when order placed) -->
+      <section id="order-confirmed-view" class="order-confirmed-view hidden">
+        <div class="glass-card confirmation-card text-center">
+          <div class="confirm-icon-pulse">👑</div>
+          <span class="confirm-badge">ROYAL ORDER CONFIRMED</span>
+          <h1 class="confirm-title">Thank You For Your Patronage</h1>
+          <p class="confirm-desc">
+            Your bespoke fragrance package is being carefully prepared and hand-sealed by our master perfumers in Kannauj.
+          </p>
+
+          <div class="order-receipt-box">
+            <div class="receipt-row">
+              <span class="receipt-lbl">Order Reference</span>
+              <span id="confirm-order-id" class="receipt-val gold">#AL-84920</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-lbl">Estimated Delivery</span>
+              <span id="confirm-delivery-date" class="receipt-val">2–3 Business Days (Express Metro)</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-lbl">Payment Status</span>
+              <span id="confirm-payment-status" class="receipt-val green">Paid via UPI Instant ⚡</span>
+            </div>
+            <div class="receipt-row">
+              <span class="receipt-lbl">Delivery To</span>
+              <span id="confirm-recipient" class="receipt-val">Customer</span>
+            </div>
+            <div class="receipt-row total-row">
+              <span class="receipt-lbl">Total Amount</span>
+              <span id="confirm-total-amount" class="receipt-val gold-total">₹0</span>
+            </div>
+          </div>
+
+          <div class="confirmation-actions">
+            <a href="index.html" class="btn btn-primary btn-lg">
+              <span>Return to Boutique Collection</span>
+              <span>✨</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Checkout Form & Summary Grid -->
+      <div id="checkout-layout-grid" class="checkout-grid">
+
+        <!-- Left Column: Streamlined Express Checkout Form -->
+        <section class="checkout-form-column">
+          <form id="express-checkout-form" class="express-form glass-card">
+
+            <div class="form-header-banner">
+              <h2>Express Checkout</h2>
+              <p>Complete your order in under 60 seconds with instant pan-India delivery.</p>
+            </div>
+
+            <!-- Step 1: Payment Selection -->
+            <div class="checkout-step-group">
+              <div class="step-header">
+                <span class="step-badge">1</span>
+                <h3>Select Payment Method</h3>
+              </div>
+
+              <div class="payment-methods-stack">
+                <label class="pay-method-card active">
+                  <input type="radio" name="payment_method" value="UPI Instant (GPay / PhonePe / Paytm)" checked>
+                  <div class="pay-method-info">
+                    <div class="pay-method-title-row">
+                      <span class="pay-icon">⚡</span>
+                      <span class="pay-name">UPI Instant / QR Code</span>
+                      <span class="pay-tag fastest">RECOMMENDED</span>
+                    </div>
+                    <p class="pay-desc">Google Pay, PhonePe, Paytm, CRED &amp; all UPI Apps</p>
+                  </div>
+                </label>
+
+                <label class="pay-method-card">
+                  <input type="radio" name="payment_method" value="Credit / Debit Card">
+                  <div class="pay-method-info">
+                    <div class="pay-method-title-row">
+                      <span class="pay-icon">💳</span>
+                      <span class="pay-name">Credit &amp; Debit Card</span>
+                    </div>
+                    <p class="pay-desc">Visa, Mastercard, RuPay, American Express</p>
+                  </div>
+                </label>
+
+                <label class="pay-method-card">
+                  <input type="radio" name="payment_method" value="Net Banking">
+                  <div class="pay-method-info">
+                    <div class="pay-method-title-row">
+                      <span class="pay-icon">🏦</span>
+                      <span class="pay-name">Net Banking</span>
+                    </div>
+                    <p class="pay-desc">HDFC, ICICI, SBI, Axis, Kotak &amp; 50+ banks</p>
+                  </div>
+                </label>
+
+                <label class="pay-method-card">
+                  <input type="radio" name="payment_method" value="Cash on Delivery">
+                  <div class="pay-method-info">
+                    <div class="pay-method-title-row">
+                      <span class="pay-icon">💵</span>
+                      <span class="pay-name">Cash on Delivery (COD)</span>
+                    </div>
+                    <p class="pay-desc">Pay upon doorstep arrival across India</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Step 2: Customer & Shipping Details -->
+            <div class="checkout-step-group">
+              <div class="step-header">
+                <span class="step-badge">2</span>
+                <h3>Shipping &amp; Contact Details</h3>
+              </div>
+
+              <div class="input-fields-container">
+                <div class="form-field full-width">
+                  <label for="chk-name">Full Name *</label>
+                  <input type="text" id="chk-name" required placeholder="e.g. Maharani Ananya Sharma">
+                </div>
+
+                <div class="form-field-row">
+                  <div class="form-field">
+                    <label for="chk-phone">Mobile Number *</label>
+                    <input type="tel" id="chk-phone" required placeholder="+91 98765 43210" pattern="[0-9+ -]{10,15}">
+                  </div>
+                  <div class="form-field">
+                    <label for="chk-email">Email Address *</label>
+                    <input type="email" id="chk-email" required placeholder="ananya@example.com">
+                  </div>
+                </div>
+
+                <div class="form-field full-width">
+                  <label for="chk-address">Delivery Address (House/Flat, Building &amp; Street) *</label>
+                  <input type="text" id="chk-address" required placeholder="e.g. 14 Altamount Road, Kemps Corner">
+                </div>
+
+                <div class="form-field-row">
+                  <div class="form-field">
+                    <label for="chk-city">City *</label>
+                    <input type="text" id="chk-city" required placeholder="Mumbai">
+                  </div>
+                  <div class="form-field">
+                    <label for="chk-pincode">Pincode *</label>
+                    <input type="text" id="chk-pincode" required placeholder="400026" maxlength="6">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-action-section">
+              <button type="submit" id="place-order-submit-btn" class="btn btn-primary btn-block btn-lg btn-place-order">
+                <span>Complete Order</span>
+                <span id="submit-btn-total" class="btn-total-pill">₹0</span>
+              </button>
+              <div class="checkout-reassurance">
+                <span>🛡️ 100% Risk-Free Guarantee</span>
+                <span>•</span>
+                <span>🚚 Free Pan-India Insured Shipping</span>
+              </div>
+            </div>
+
+          </form>
+        </section>
+
+        <!-- Right Column: Order Summary & Promo -->
+        <aside class="checkout-summary-column">
+          <div class="glass-card summary-card">
+            
+            <div class="summary-header">
+              <h3>Order Summary</h3>
+              <span id="summary-items-count" class="items-badge">0 items</span>
+            </div>
+
+            <!-- Items List -->
+            <div id="checkout-items-wrapper" class="checkout-items-wrapper">
+              <!-- Dynamically populated -->
+            </div>
+
+            <!-- Promo Code Accord -->
+            <div class="promo-box">
+              <div class="promo-input-row">
+                <input type="text" id="promo-input" placeholder="Promo code (e.g. AURA15)" aria-label="Promo Code">
+                <button type="button" id="promo-apply-btn" class="btn btn-secondary promo-btn">Apply</button>
+              </div>
+              <div id="promo-hint-tag" class="promo-hint">
+                <span>✨ Use code <strong id="quick-apply-code">AURA15</strong> for 15% VIP discount</span>
+              </div>
+              <div id="promo-success-alert" class="promo-success-alert hidden">
+                ✓ 15% VIP Discount Applied!
+              </div>
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="price-breakdown">
+              <div class="calc-row">
+                <span>Bag Subtotal</span>
+                <span id="subtotal-display" class="val">₹0</span>
+              </div>
+              <div id="discount-calc-row" class="calc-row discount hidden">
+                <span>VIP Discount (15%)</span>
+                <span id="discount-display" class="val">-₹0</span>
+              </div>
+              <div class="calc-row">
+                <span>Insured Express Shipping</span>
+                <span class="val green-badge">FREE</span>
+              </div>
+              <div class="calc-row">
+                <span>GST &amp; Fragrance Taxes</span>
+                <span class="val muted">Included</span>
+              </div>
+              <div class="calc-row total-pay-row">
+                <span>Total Payable</span>
+                <span id="total-pay-display" class="val total-val">₹0</span>
+              </div>
+            </div>
+
+            <!-- Trust Highlights -->
+            <div class="checkout-trust-stack">
+              <div class="trust-pill">
+                <span class="t-icon">👑</span>
+                <span class="t-txt">Authentic Kannauj Deg Distilled Attar</span>
+              </div>
+              <div class="trust-pill">
+                <span class="t-icon">🎁</span>
+                <span class="t-txt">Free 2ml Discovery Vial Included</span>
+              </div>
+              <div class="trust-pill">
+                <span class="t-icon">🚚</span>
+                <span class="t-txt">Dispatched Within 24 Hours</span>
+              </div>
+            </div>
+
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Checkout Script -->
+  <script src="checkout.js"></script>
+</body>
+</html>
