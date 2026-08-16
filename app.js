@@ -136,7 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const id = e.currentTarget.getAttribute('data-id');
-        addToCart(id);
+        const card = e.currentTarget.closest('.product-card');
+        const img = card ? card.querySelector('.product-img') : e.currentTarget;
+        addToCart(id, '50ml', 1, img || e.currentTarget);
       });
     });
 
@@ -268,8 +270,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       cart.push(customItem);
       updateCartUI();
-      openCartDrawer();
-      showToast(`Custom blend "${customName}" added to cart!`, '🧪');
+
+      // Trigger smooth fly-to-cart animation (No cart drawer pop-up, no toast message)
+      const bottleSource = bottleBody || addCustomBlendBtn;
+      animateFlyToCart(bottleSource, customItem.image);
     });
   }
 
@@ -298,7 +302,91 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCartDrawer);
   if (cartOverlay) cartOverlay.addEventListener('click', closeCartDrawer);
 
-  function addToCart(productId, size = '50ml', priceMult = 1) {
+  // --- Fly-to-Cart Animation Helper ---
+  function animateFlyToCart(sourceEl, imgSrc) {
+    const targetCartBtn = document.getElementById('cart-toggle-btn');
+    if (!targetCartBtn) return;
+
+    let startRect;
+    if (sourceEl && typeof sourceEl.getBoundingClientRect === 'function') {
+      startRect = sourceEl.getBoundingClientRect();
+    } else {
+      startRect = {
+        left: window.innerWidth / 2 - 50,
+        top: window.innerHeight / 2 - 50,
+        width: 100,
+        height: 100
+      };
+    }
+
+    const targetRect = targetCartBtn.getBoundingClientRect();
+
+    const flyingEl = document.createElement('img');
+    flyingEl.className = 'flying-cart-item';
+    flyingEl.src = imgSrc || './images/hero.png';
+
+    const initWidth = Math.max(40, Math.min(startRect.width, 160));
+    const initHeight = Math.max(40, Math.min(startRect.height, 160));
+    flyingEl.style.left = `${startRect.left + (startRect.width - initWidth) / 2}px`;
+    flyingEl.style.top = `${startRect.top + (startRect.height - initHeight) / 2}px`;
+    flyingEl.style.width = `${initWidth}px`;
+    flyingEl.style.height = `${initHeight}px`;
+
+    document.body.appendChild(flyingEl);
+
+    const startX = startRect.left + startRect.width / 2;
+    const startY = startRect.top + startRect.height / 2;
+    const targetX = targetRect.left + targetRect.width / 2;
+    const targetY = targetRect.top + targetRect.height / 2;
+
+    const deltaX = targetX - startX;
+    const deltaY = targetY - startY;
+
+    const animation = flyingEl.animate(
+      [
+        {
+          transform: 'translate(0, 0) scale(1) rotate(0deg)',
+          opacity: 1,
+          filter: 'drop-shadow(0 0 15px rgba(212, 175, 55, 0.8))'
+        },
+        {
+          transform: `translate(${deltaX * 0.45}px, ${deltaY * 0.3 - 50}px) scale(0.7) rotate(12deg)`,
+          opacity: 0.95,
+          offset: 0.55
+        },
+        {
+          transform: `translate(${deltaX}px, ${deltaY}px) scale(0.18) rotate(25deg)`,
+          opacity: 0.1
+        }
+      ],
+      {
+        duration: 750,
+        easing: 'cubic-bezier(0.2, 0.8, 0.25, 1)',
+        fill: 'forwards'
+      }
+    );
+
+    animation.onfinish = () => {
+      flyingEl.remove();
+
+      targetCartBtn.classList.remove('bounce');
+      void targetCartBtn.offsetWidth;
+      targetCartBtn.classList.add('bounce');
+
+      if (cartCountBadge) {
+        cartCountBadge.classList.remove('bump');
+        void cartCountBadge.offsetWidth;
+        cartCountBadge.classList.add('bump');
+      }
+
+      setTimeout(() => {
+        targetCartBtn.classList.remove('bounce');
+        if (cartCountBadge) cartCountBadge.classList.remove('bump');
+      }, 500);
+    };
+  }
+
+  function addToCart(productId, size = '50ml', priceMult = 1, sourceEl = null) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
 
@@ -318,10 +406,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    // Smooth fly-to-cart animation without side drawer pop-up or toast message
+    let flySource = sourceEl;
+    if (!flySource) {
+      const cardBtn = document.querySelector(`.add-to-cart-btn[data-id="${productId}"]`);
+      if (cardBtn) {
+        const card = cardBtn.closest('.product-card');
+        flySource = card ? card.querySelector('.product-img') : cardBtn;
+      }
+    }
+    animateFlyToCart(flySource, product.image);
+
     saveCart();
     updateCartUI();
-    openCartDrawer();
-    showToast(`Added ${product.title} (${size}) to your cart!`, '🛒');
   }
 
   function updateCartUI() {
@@ -483,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (modalAddBtn) {
     modalAddBtn.addEventListener('click', () => {
       if (activeModalProductId) {
-        addToCart(activeModalProductId, activeSize, activePriceMult);
+        addToCart(activeModalProductId, activeSize, activePriceMult, modalImg || modalAddBtn);
         if (modalOverlay) modalOverlay.classList.remove('open');
       }
     });
